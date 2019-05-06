@@ -5,7 +5,7 @@
   /* Output rgb Array */
   t.toRGB = function (a) {
     a = a.replace(/#/g, ""), // remove hash
-    3 === str.length && (str = [str[0] + str[0], str[1] + str[1], str[2] + str[2]].join("")); // convert to 6 long
+    3 === a.length && (a = [a[0] + a[0], a[1] + a[1], a[2] + a[2]].join("")); // convert to 6 long
     var b = parseInt(a, 16);
     return [b >> 16, 255 & b >> 8, 255 & b]
   };
