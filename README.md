@@ -14,7 +14,7 @@ grad({
    raw: 0 // output as raw rgb array
 })
 ```
-
+Outputs: `["ffffff", "e3e3e3", "c6c6c6", "aaaaaa", "8e8e8e", "717171", "555555", "393939", "1c1c1c", "000000"]`
 
 ----
  
