@@ -1,76 +1,103 @@
 // RGB & Hex conversion forked from https://github.com/daniellmb/HEX-RGB-Conversion
 
-!function (t) {
+!function (win) {
 
-  /* Output rgb Array */
-  t.toRGB = function (a) {
-    a = a.replace(/#/g, ""), // remove hash
-    3 === a.length && (a = [a[0] + a[0], a[1] + a[1], a[2] + a[2]].join("")); // convert to 6 long
-    var b = parseInt(a, 16);
-    return [b >> 16, 255 & b >> 8, 255 & b]
-  };
-  
-  /* Output hex string */
-  t.toHex = function (r, g, b) { //enter 3 args or 1 array
-    return (Math.round(r[2] || b) | Math.round(r[1] || g) << 8 | Math.round(r[0] || r) << 16 | 1 << 24).toString(16).slice(1)
-  };
-  
-  /* Output array */
-  t.grad = function (g) {
-  
-    /* ## Control flow for multi-gradients ## */
-    if (g.src.length > 2) {
-    
-      var o = g.src.length - 1, // Number of grads needed
-          n = Math.floor((g.i - 1) / o), // Sub grad array size
-          a = []; // return master grad
-          
-      for (var u = 0; u < o; u++) { // run through required grads
-        a = [].concat(a, grad(Object.assign({}, g, { // create arg from original & modify
-              src: [g.src[u], g.src[u + 1]], // to only calculate required grads
-              i: n, // sub array size
-              a: 1 // dont run till end (don't double up colours)
-            })))};
-      
-      var l = g.src[o].replace(/#/g,""), b = toRGB(l); // get last item to add, get rgb vals
-      return a.push(g.raw ? b : g.rgb ? "rgb(" + b[0] + "," + b[1] + "," + b[2] + ")" : l), // change format of last one if needed
-      a // return multi-gradient array
-    }
-    /* ## End multi grad control flow ## */
-    
-    /* ## Control flow for single gradient ## */
-    
-    /* Initalise values  */
-    var u = toRGB(g.src[0]), // rgb array for start colour
-        f = toRGB(g.src[1]), // rgb array for end colour
-        c = [] //step differences
-    for (var e = 0; 3 > e; e++) // iterate over rgb chanels
-      c[e] = (f[e] - u[e]) / (g.a ? g.i : g.i - 1); // calc step diffs, if g.a is set it will run to second last color
-      
-    /* Calc gradient */
-    var r = [u]; // first val = inputted
-    for (var i = 1; i < g.i; i++) {
-    
-      var h = [].concat(r[i - 1]); // get previous val to add step diff to
-      
-      for (var e = 0; 3 > e; e++) // iterate over rgb chanels
-        h[e] += c[e]; // to step diff calc
+  win.grad = function (args) {
 
-      r[i] = h // push array
+    if (args.src.length > 2) { // Multi Gradient Control
+
+      var len = args.src.length - 1,
+      subArrLen = Math.floor((args.i - 1) / len),
+      masterArr = [];
+
+      /* Create gradients and add to master array */
+      for (var u = 0; u < len; u++) {
+        masterArr = [].concat(masterArr, grad(Object.assign({}, args, {
+              src: [args.src[u], args.src[u + 1]],
+              i: subArrLen,
+              a: 1 // this hidden tag means that it will leave off the last colour (specifically for multi gradients)
+            })))
+      };
+
+      /* Add last colour */
+      var lastHex = HexParse(args.src[len]),
+      lastRGB = colourParse(lastHex);
+      masterArr.push(args.raw ? lastRGB : args.rgb ? RGB_Str(lastRGB) : lastHex);
+
+      return masterArr
+
+    } else {
+
+      var firstColour = colourParse(args.src[0]),
+      lastColour = colourParse(args.src[1]),
+      differenceVal = [];
+
+      /* Calculate difference step for each itteration */
+      eachRGB((channel) => {
+        differenceVal[channel] = (lastColour[channel] - firstColour[channel]) / (args.a ? args.i : args.i - 1)
+      });
+
+      /* First colour is first in resArr */
+      var resArr = [firstColour];
+
+      /* Run through rgb chanels and calc difference, push result to resArr */
+      for (var i = 1; i < args.i; i++) {
+        var nxtVal = [].concat(resArr[i - 1]);
+        eachRGB((channel) => {
+          nxtVal[channel] += differenceVal[channel];
+        });
+        resArr[i] = nxtVal
+      }
+
+      /* Clean up decimal points */
+      args.accuracy = args.accuracy !== undefined ? args.accuracy : 5;
+      resArr = resArr.map(values => values.map(val => (+val.toFixed(args.accuracy))));
+
+      /* Format output */
+      if (args.rgb) {
+        resArr = resArr.map(val => RGB_Str(val))
+      } else if (!args.raw) {
+        resArr = resArr.map(val => colourParse(val))
+      }
+
+      return resArr
     }
-    
-    g.ac = g.accuracy !== undefined ? g.accuracy : 5; // get accuracy
-    r = r.map(s => s.map(m => (+m.toFixed(g.ac)))); // set accuracy
-    
-    /* Formatting for return */
-    if (g.rgb) { // rgb:1 set to return rgb string
-      r = r.map(s => "rgb(" + s[0] + "," + s[1] + "," + s[2] + ")")
-    } else if (!g.raw) { // hex if raw:1 isn't set
-      r = r.map(s => toHex(s))
-    }
-    
-    return r // return gradient array
-    /* ## End grad control flow ## */
+  };
+
+  /* Tools */
+
+  /* Parse Colours:
+  input hex string to output rgb array
+  input rgb array or 3 args to output hex
+   */
+  function colourParse(r, g, b) {
+    if (typeof r === "string") {
+      var b = parseInt(HexParse(r), 16);
+      return [b >> 16, 255 & b >> 8, 255 & b]
+    } else
+      return (Math.round(r[2] || b) | Math.round(r[1] || g) << 8 | Math.round(r[0] || r) << 16 | 1 << 24).toString(16).slice(1)
   }
+
+  /* Return rgb string from rgb array */
+  function RGB_Str(i) {
+    return "rgb(" + i[0] + "," + i[1] + "," + i[2] + ")"
+  }
+
+  /* Parse Hex - remove # and convert 3 to 6 if needed */
+  function HexParse(i) {
+    i = i.replace(/#/g, "");
+    if (3 === i.length) {
+      i = [i[0] + i[0], i[1] + i[1], i[2] + i[2]].join("")
+    }
+    return i
+  }
+
+  /* Iterate 3 times */
+  function eachRGB(x) {
+    for (var e = 0; 3 > e; e++) {
+      x(e)
+    }
+  }
+
 }
 (this);
