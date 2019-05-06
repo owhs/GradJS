@@ -32,7 +32,7 @@
               a: 1 // dont run till end (don't double up colours)
             })))};
       
-      var l = g.src[o], b = toRGB(l); // get last item to add, get rgb vals
+      var l = g.src[o].replace(/#/g,""), b = toRGB(l); // get last item to add, get rgb vals
       return a.push(g.raw ? b : g.rgb ? "rgb(" + b[0] + "," + b[1] + "," + b[2] + ")" : l), // change format of last one if needed
       a // return multi-gradient array
     }
