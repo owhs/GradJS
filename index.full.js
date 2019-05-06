@@ -26,7 +26,7 @@
 
       return masterArr
 
-    } else {
+    } else { // Single Gradient Control
 
       var firstColour = colourParse(args.src[0]),
       lastColour = colourParse(args.src[1]),
