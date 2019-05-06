@@ -1,2 +1,7 @@
 # GradJS
-Lightweight colour gradient generator
+#### Lightweight colour gradient generator
+ 
+----
+ 
+## Examples:
+
