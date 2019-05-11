@@ -32,6 +32,7 @@ If you 100% require atleast the number you ask for, you can add `up:true` to the
 ### Single gradient:
 
 ##### Input: `grad({ src:["fff", "000"], i: 10 })`
+######  Shorthand: `grad("fff", "000", 10)`
 ##### Output:
 `["ffffff", "e3e3e3", "c6c6c6", "aaaaaa", "8e8e8e", "717171", "555555", "393939", "1c1c1c", "000000"]`
 
@@ -40,6 +41,7 @@ If you 100% require atleast the number you ask for, you can add `up:true` to the
 ### Multi gradient:
 
 ##### Input: `grad({ src:["f00", "0f0", "00f"], i: 10 })`
+######  Shorthand: `grad("fff", "000", "00f", 10)`
 ##### Output:
 `["ff0000", "bf4000", "808000", "40bf00", "00ff00", "00bf40", "008080", "0040bf", "0000ff"]`
 
@@ -50,6 +52,7 @@ If you 100% require atleast the number you ask for, you can add `up:true` to the
 ### Multi gradient: (no rounding issue)
 
 ##### Input: `grad({ src:["f00", "0f0", "00f", "000"], i: 10 })`
+######  Shorthand: `grad("f00", "0f0", "00f", "000", 10)`
 ##### Output:
 `["ff0000", "aa5500", "55aa00", "00ff00", "00aa55", "0055aa", "0000ff", "0000aa", "000055", "000000"]`
 
