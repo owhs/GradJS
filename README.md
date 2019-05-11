@@ -22,6 +22,7 @@ Outputs: `["ffffff", "e3e3e3", "c6c6c6", "aaaaaa", "8e8e8e", "717171", "555555",
 
 For some multi gradients, due to rounding issues, it will not be able to create the exact number of values as requested.
 In these situations, it will always round down, and thus produce less than requested - never more. (Usually only ever by 1 or 2)
+
 If you 100% require atleast the number you ask for, you can add `up:true` to the arguments, you'll end up probably recieving more (by 1 or 2).
 
 ----
