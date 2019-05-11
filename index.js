@@ -7,7 +7,7 @@
     if (args.src.length > 2) { // Multi Gradient Control
 
       var len = args.src.length - 1,
-      subArrLen = Math.floor((args.i - 1) / len),
+      subArrLen = Math[args.up ? "ceil" : "floor"]((args.i - 1) / len),
       masterArr = [];
 
       /* Create gradients and add to master array */
