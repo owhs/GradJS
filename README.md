@@ -81,7 +81,7 @@ If you 100% require atleast the number you ask for, you can add `up:true` to the
 
 ----
 
-### Output as rgb string, with difference accuracy
+### Output as rgb string, with different accuracy
 
 ##### Input: `grad({ src:["fff", "000"], i: 5, accuracy: 1, rgb: 1 })`
 ##### Output:
