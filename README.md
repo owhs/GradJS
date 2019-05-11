@@ -19,6 +19,20 @@ Outputs: `["ffffff", "e3e3e3", "c6c6c6", "aaaaaa", "8e8e8e", "717171", "555555",
 
 ----
  
+## Versions:
+
+| Name  | Size (bytes) | Desc |
+| - | - | - |
+| [index.min.js](https://github.com/owhs/GradJS/blob/master/index.min.js)  | 966 | full api usage |
+| [index.no-shorthand.js](https://github.com/owhs/GradJS/blob/master/index.no-shorthand.js) | 865 | full api usage, no shorthand functionality |
+| [index.simpleGrad.js](https://github.com/owhs/GradJS/blob/master/index.simpleGrad.js) | 566 | only able to generate single grads, no - rgb, raw or shorthand|
+| [index.simpleMulitGrad.js](https://github.com/owhs/GradJS/blob/master/index.simpleMulitGrad.js) | 765 | Can create multi grads, no - rgb, raw or shorthand|
+| `*` [index.simpleMultiGrad-shorthand.js](https://github.com/owhs/GradJS/blob/master/index.simpleMultiGrad-shorthand.js) | 860 | Can create multi grads & use shorthand, no - rgb or raw |
+
+`*` My personal favourite
+
+----
+ 
 ## Limitations:
 
 For some multi gradients, due to rounding issues, it will not be able to create the exact number of values as requested.
