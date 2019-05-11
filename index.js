@@ -3,7 +3,11 @@
 !function (win) {
 
   win.grad = function (args) {
-
+    
+    // Shorthand handler, join string args into src and number arg as i
+    var arg_arr=[].slice.call(arguments);
+	  if (typeof args === "string") args={src:arg_arr.filter(x=>typeof x === "string"),i:arg_arr.filter(x=>typeof x === "number")[0]};
+    
     if (args.src.length > 2) { // Multi Gradient Control
 
       var len = args.src.length - 1,
