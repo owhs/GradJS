@@ -11,7 +11,8 @@ grad({
    i: 10, // length of output / iterations required
    accuracy: 5, // (for rgb/raw output) number of decimal places
    rgb: 0, // output as rgb string
-   raw: 0 // output as raw rgb array
+   raw: 0, // output as raw rgb array
+   up: 0 // for multi-gradients round down by default for grouping
 })
 ```
 Outputs: `["ffffff", "e3e3e3", "c6c6c6", "aaaaaa", "8e8e8e", "717171", "555555", "393939", "1c1c1c", "000000"]`
