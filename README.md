@@ -60,7 +60,7 @@ If you 100% require atleast the number you ask for, you can add `up:true` to the
 ##### Output:
 `["ff0000", "bf4000", "808000", "40bf00", "00ff00", "00bf40", "008080", "0040bf", "0000ff"]`
 
-###### Note - It cannot produce the requested length (10) in this instance.<br />It will always opt return an array length less than requested amount, rather than go over.
+###### Note - It cannot produce the requested length (10) in this instance.<br />It will always opt return an array length less than requested amount, rather than go over. (In some circumstances you might want more - just use Math.ceil, rather than Math.floor)
 
 ----
 
